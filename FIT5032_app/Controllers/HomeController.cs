@@ -22,7 +22,7 @@ namespace FIT5032_app.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Here's our contact information.";
 
             return View();
         }

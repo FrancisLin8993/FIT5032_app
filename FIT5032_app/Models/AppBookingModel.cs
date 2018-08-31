@@ -20,6 +20,7 @@ namespace FIT5032_app.Models
             modelBuilder.Entity<Event>()
                 .Property(e => e.Description)
                 .IsUnicode(false);
+            
         }
     }
 }

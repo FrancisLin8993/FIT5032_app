@@ -5,10 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Your Current Booking List</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Book A New Event", "Create")
 </p>
 <table class="table">
     <tr>
@@ -16,7 +16,10 @@
             @Html.DisplayNameFor(model => model.Event.EventName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UserId)
+            @Html.DisplayNameFor(model => model.Event.StartDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Event.EventLength)
         </th>
         <th></th>
     </tr>
@@ -27,12 +30,15 @@
             @Html.DisplayFor(modelItem => item.Event.EventName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.UserId)
+            @Html.DisplayFor(modelItem => item.Event.StartDateTime)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.BookingId }) |
+            @Html.DisplayFor(modelItem => item.Event.EventLength)
+        </td>
+        <td>
+            
             @Html.ActionLink("Details", "Details", new { id=item.BookingId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.BookingId })
+            @Html.ActionLink("Cancel Booking", "Delete", new { id=item.BookingId })
         </td>
     </tr>
 }
