@@ -42,7 +42,7 @@ namespace FIT5032_app.Controllers
         // GET: Bookings/Create
         public ActionResult Create()
         {
-            ViewBag.EventId = new SelectList(db.Events, "EventId", "EventName");
+            ViewBag.EventId = new SelectList(db.Events.Where(e => e.Available == true), "EventId", "EventName");
             return View();
         }
 
@@ -54,6 +54,7 @@ namespace FIT5032_app.Controllers
         public ActionResult Create([Bind(Include = "BookingId,EventId")] Booking booking)
         {
             booking.UserId = User.Identity.GetUserId();
+            
             ModelState.Clear();
             TryValidateModel(booking);
             if (ModelState.IsValid)

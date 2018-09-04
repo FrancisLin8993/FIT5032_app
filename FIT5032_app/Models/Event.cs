@@ -21,6 +21,8 @@ namespace FIT5032_app.Models
         public string EventName { get; set; }
         [Required]
         [Display(Name = "Start Date & Time")]
+        //[DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime StartDateTime { get; set; }
         [Required]
         [Display(Name = "Length(hours)")]

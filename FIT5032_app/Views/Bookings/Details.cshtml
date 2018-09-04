@@ -20,11 +20,27 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.UserId)
+            @Html.DisplayNameFor(model => model.Event.StartDateTime)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.UserId)
+            @Html.DisplayFor(model => model.Event.StartDateTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Event.EventLength)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Event.EventLength)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Event.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Event.Description)
         </dd>
 
     </dl>

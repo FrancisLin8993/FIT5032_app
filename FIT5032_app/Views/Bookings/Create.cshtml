@@ -19,7 +19,7 @@
         
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EventId, "EventId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.EventId, "Choose An Event", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("EventId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.EventId, "", new { @class = "text-danger" })
@@ -28,7 +28,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Confirm Booking" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -40,4 +40,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    
 }
