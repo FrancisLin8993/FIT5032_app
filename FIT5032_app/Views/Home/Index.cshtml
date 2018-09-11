@@ -5,20 +5,20 @@
 <div class="well image">
     <h1>Lin's Weight Loss Centre</h1>
     <p class="lead">Lin's Weight Loss Centre provides weight loss workshops to members.</p>
-    
+
 </div>
 
 <div class="row">
     <div class="col-md-6">
         <h2>Find an Event!</h2>
-        
+
         <p><a class="btn btn-default" href="@Url.Action("Index", "Events")">Events List</a></p>
     </div>
     <div class="col-md-6">
         <h2>Choose a Date</h2>
-        
+
     </div>
-    
+
 </div>
 
 <div class="well" style="background-color:lightgrey" id="aboutus">
@@ -26,4 +26,12 @@
         <h2>About Us</h2>
         <p>This is a website for educational purpose.</p>
     </div>
+    
 </div>
+
+<div id="map" style="min-height:300px;">
+
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/mapbox")
+}

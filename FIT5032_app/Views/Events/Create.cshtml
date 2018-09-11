@@ -28,7 +28,7 @@
             @Html.LabelFor(model => model.StartDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 
-                @Html.EditorFor(model => model.StartDateTime, new { htmlAttributes = new { @class = "form-control", @id = "datetimepicker1" } })
+                @Html.EditorFor(model => model.StartDateTime, new { htmlAttributes = new { @class = "form-control", @id = "datetimepicker1" } } )
                 
                 
                 @Html.ValidationMessageFor(model => model.StartDateTime, "", new { @class = "text-danger" })
@@ -82,7 +82,9 @@
 <script type="text/javascript">
     $(function () {
         $('#datetimepicker1').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm'
+            format: 'YYYY-MM-DD HH:mm',
+            maxDate: '2029-12-31',
+            minDate: Date.now()
         });
     });
 </script>

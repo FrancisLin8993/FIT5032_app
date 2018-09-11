@@ -25,11 +25,13 @@ namespace FIT5032_app.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime StartDateTime { get; set; }
         [Required]
-        [Display(Name = "Length(hours)")]
+        [Range(1,4,ErrorMessage = "Please enter a number between 1 and 4")]
+        [Display(Name = "Length(hours)")]       
         public int EventLength { get; set; }
 
         [Column(TypeName = "text")]
         [Required]
+        [StringLength(1000)]
         public string Description { get; set; }
 
         [Display(Name = "Available to book?")]

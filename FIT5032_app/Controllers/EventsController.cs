@@ -110,10 +110,21 @@ namespace FIT5032_app.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Event @event = db.Events.Find(id);
-     
-            db.Events.Remove(@event);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+
+            var booking = db.Bookings.Where(b => b.EventId == id).ToList();
+            if (booking != null)
+            {
+                ViewBag.Error = "Sorry, you cannot delete an event with booking records";
+                return View(@event);
+            }
+            else
+            {
+                db.Events.Remove(@event);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            
+            
         }
 
         protected override void Dispose(bool disposing)
