@@ -42,7 +42,18 @@ namespace FIT5032_app.Controllers
         // GET: Bookings/Create
         public ActionResult Create()
         {
-            ViewBag.EventId = new SelectList(db.Events.Where(e => e.Available == true), "EventId", "EventName");
+            var userId = User.Identity.GetUserId();
+
+            var query = (from e in db.Events
+                         where e.Available == true
+                         select new {EventId = e.EventId, EventName = e.EventName})
+                        .Except(from e in db.Events
+                                join b in db.Bookings on e.EventId equals b.EventId
+                                where b.UserId == userId
+                                select new { EventId = e.EventId, EventName = e.EventName}).Distinct();
+
+            //db.Events.Where(e => e.Available == true, "EventId", "EventName")
+            ViewBag.EventId = new SelectList(query, "EventId", "EventName");
             return View();
         }
 
@@ -54,16 +65,23 @@ namespace FIT5032_app.Controllers
         public ActionResult Create([Bind(Include = "BookingId,EventId")] Booking booking)
         {
             booking.UserId = User.Identity.GetUserId();
-            
             ModelState.Clear();
             TryValidateModel(booking);
+
             if (ModelState.IsValid)
             {
-                db.Bookings.Add(booking);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                 
+                    db.Bookings.Add(booking);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                
+               
+                
             }
-
+            
+                        
+                        
+            
             ViewBag.EventId = new SelectList(db.Events, "EventId", "EventName", booking.EventId);
             return View(booking);
         }
