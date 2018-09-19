@@ -1,4 +1,5 @@
-﻿@model IEnumerable<FIT5032_app.Models.Booking>
+﻿@model IEnumerable<FIT5032_app.Models.BookingEmailViewModel>
+
 
 @{
     ViewBag.Title = "Index";
@@ -13,34 +14,50 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Event.EventName)
+            @Html.DisplayNameFor(model => model.Booking.Event.EventName)
+
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Event.StartDateTime)
+            @Html.DisplayNameFor(model => model.Booking.Event.StartDateTime)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Event.EventLength)
+            @Html.DisplayNameFor(model => model.Booking.Event.EventLength)
         </th>
-        <th></th>
+        @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.User.Email)
+            </th>
+        }
+        <th>
+
+        </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Event.EventName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Event.StartDateTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Event.EventLength)
-        </td>
-        <td>
-            
-            @Html.ActionLink("Details", "Details", new { id=item.BookingId }) |
-            @Html.ActionLink("Cancel Booking", "Delete", new { id=item.BookingId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Booking.Event.EventName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Booking.Event.StartDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Booking.Event.EventLength)
+            </td>
+            @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Email)
+                </td>
+            }
+            <td>
+
+                @Html.ActionLink("Details", "Details", new { id = item.Booking.BookingId }) |
+                @Html.ActionLink("Cancel Booking", "Delete", new { id = item.Booking.BookingId })
+            </td>
+        </tr>
+    }
 
 </table>

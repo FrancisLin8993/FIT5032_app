@@ -17,12 +17,63 @@ namespace FIT5032_app.Controllers
         private AppBookingModel db = new AppBookingModel();
 
         // GET: Bookings
+        
         public ActionResult Index()
         {
+             var userdb = new ApplicationDbContext();
+             
             var userId = User.Identity.GetUserId();
-            var bookings = db.Bookings.Where(b => b.UserId == userId).ToList();
-            return View(bookings);
+            var appuser = (from u in userdb.Users
+                           select new { user = u }).ToArray();
+
+           
+
+            var adminQuery = from u in appuser
+                        join b in db.Bookings on u.user.Id equals b.UserId                       
+                        select new BookingEmailViewModel
+                        {
+                            Booking = b,
+                            User = u.user
+                        };
+
+            var query = from u in appuser
+                        join b in db.Bookings on u.user.Id equals b.UserId
+                        where b.UserId == userId
+                        select new BookingEmailViewModel
+                        {
+                            Booking = b,
+                            User = u.user
+                        };
+
+            if (User.IsInRole("admin"))
+            {
+                return View(adminQuery);
+            }
+            else
+            {
+                return View(query);
+            }
+                
+
+
+            
+            //var allBookings = db.Bookings.ToList();
+            /*var bookings = db.Bookings.Where(b => b.UserId == userId).ToList();
+            if (User.IsInRole("admin"))
+            {
+                return View(allBookings);
+                return View(query);
+            }
+            else
+            {
+                vm.Booking = db.Bookings.Where(b => b.UserId == userId).ToList();
+                return View(vm);
+                return View(bookings);
+            }*/
+
         }
+
+
 
         // GET: Bookings/Details/5
         public ActionResult Details(int? id)

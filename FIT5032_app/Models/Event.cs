@@ -18,6 +18,7 @@ namespace FIT5032_app.Models
 
         [Required]
         [Display(Name = "Event Name")]
+        [StringLength(50)]
         public string EventName { get; set; }
         [Required]
         [Display(Name = "Start Date & Time")]
