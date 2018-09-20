@@ -26,8 +26,6 @@ namespace FIT5032_app.Controllers
             var appuser = (from u in userdb.Users
                            select new { user = u }).ToArray();
 
-           
-
             var adminQuery = from u in appuser
                         join b in db.Bookings on u.user.Id equals b.UserId                       
                         select new BookingEmailViewModel
@@ -93,7 +91,16 @@ namespace FIT5032_app.Controllers
         // GET: Bookings/Create
         public ActionResult Create()
         {
+            var userdb = new ApplicationDbContext();
+
             var userId = User.Identity.GetUserId();
+            var appuser = (from u in userdb.Users
+                           select new { userId = u.Id, email = u.Email }).ToArray();
+            if (User.IsInRole("admin"))
+            {
+                ViewBag.Id = new SelectList(appuser.Where(u => u.email != "admin@admin.com"), "Id", "UserName");
+            }
+
 
             var query = (from e in db.Events
                          where e.Available == true
@@ -113,28 +120,46 @@ namespace FIT5032_app.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "BookingId,EventId")] Booking booking)
+        public ActionResult Create([Bind(Include = "BookingId,EventId")] Booking booking, FormCollection form)
         {
-            booking.UserId = User.Identity.GetUserId();
-            ModelState.Clear();
-            TryValidateModel(booking);
-
-            if (ModelState.IsValid)
+            var userdb = new ApplicationDbContext();
+            if (User.IsInRole("admin"))
             {
-                 
+                String email = form[1];
+
+                var query = (from u in userdb.Users
+                            where u.Email == email
+                            select new { userId = u.Id }).ToList().FirstOrDefault();
+
+                booking.UserId = query.userId;
+                ModelState.Clear();
+                TryValidateModel(booking);
+
+                if (ModelState.IsValid)
+                {
                     db.Bookings.Add(booking);
                     db.SaveChanges();
                     return RedirectToAction("Index");
-                
-               
-                
+                }
             }
-            
-                        
-                        
-            
+            else
+            {
+                booking.UserId = User.Identity.GetUserId();
+                ModelState.Clear();
+                TryValidateModel(booking);
+
+                if (ModelState.IsValid)
+                {
+                    db.Bookings.Add(booking);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+            }
             ViewBag.EventId = new SelectList(db.Events, "EventId", "EventName", booking.EventId);
             return View(booking);
+
+
         }
 
         // GET: Bookings/Edit/5
