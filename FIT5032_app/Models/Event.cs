@@ -22,7 +22,8 @@ namespace FIT5032_app.Models
         public string EventName { get; set; }
         [Required]
         [Display(Name = "Start Date & Time")]
-        //[DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
+        //[Range(typeof(DateTime), DateTime.Now.ToString(), "2029-12-31", ErrorMessage = "Your Seleted date and time is out of Range")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime StartDateTime { get; set; }
         [Required]

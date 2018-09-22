@@ -111,8 +111,8 @@ namespace FIT5032_app.Controllers
         {
             Event @event = db.Events.Find(id);
 
-            var booking = db.Bookings.Where(b => b.EventId == id).ToList();
-            if (booking != null)
+            var booking = db.Bookings.Where(b => b.EventId == @event.EventId).ToList();
+            if (booking.Count != 0)
             {
                 ViewBag.Error = "Sorry, you cannot delete an event with booking records";
                 return View(@event);

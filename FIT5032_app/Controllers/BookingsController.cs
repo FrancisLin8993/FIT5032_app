@@ -96,10 +96,10 @@ namespace FIT5032_app.Controllers
             var userId = User.Identity.GetUserId();
             var appuser = (from u in userdb.Users
                            select new { userId = u.Id, email = u.Email }).ToArray();
-            if (User.IsInRole("admin"))
+            /*if (User.IsInRole("admin"))
             {
                 ViewBag.Id = new SelectList(appuser.Where(u => u.email != "admin@admin.com"), "Id", "UserName");
-            }
+            }*/
 
 
             var query = (from e in db.Events
@@ -123,25 +123,37 @@ namespace FIT5032_app.Controllers
         public ActionResult Create([Bind(Include = "BookingId,EventId")] Booking booking, FormCollection form)
         {
             var userdb = new ApplicationDbContext();
+            //If the login user is admin, an email has to be entered when creating bookings
             if (User.IsInRole("admin"))
             {
+                //Get the value of email form
                 String email = form[1];
-
+                //Make a query of the email input
                 var query = (from u in userdb.Users
                             where u.Email == email
-                            select new { userId = u.Id }).ToList().FirstOrDefault();
-
-                booking.UserId = query.userId;
-                ModelState.Clear();
-                TryValidateModel(booking);
-
-                if (ModelState.IsValid)
+                            select new { user = u }).ToList().FirstOrDefault();
+                //If the result is null, display error
+                if (query == null)
                 {
-                    db.Bookings.Add(booking);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    ViewBag.Error = "Sorry, the email you entered does not exist";                 
                 }
+                else
+                {
+                    booking.UserId = query.user.Id;
+                    ModelState.Clear();
+                    TryValidateModel(booking);
+
+                    if (ModelState.IsValid)
+                    {
+                        db.Bookings.Add(booking);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                }
+                
+                
             }
+            //If the login user is not admin, user does not need to enter email
             else
             {
                 booking.UserId = User.Identity.GetUserId();
