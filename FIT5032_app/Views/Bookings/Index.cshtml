@@ -5,12 +5,19 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@if (User.IsInRole("admin"))
+{
+    <h2>Current Booking List</h2>
+}
+@if (User.IsInRole("normal"))
+{
+    <h2>Your Current Booking List</h2>
+}
 
-<h2>Your Current Booking List</h2>
 
-<p>
-    @Html.ActionLink("Book A New Event", "Create", null, htmlAttributes: new { @class = "btn btn-default" })
-</p>
+    <p>
+        @Html.ActionLink("Book A New Event", "Create", null, htmlAttributes: new { @class = "btn btn-default" })
+    </p>
 <table class="table">
     <tr>
         <th>
@@ -54,8 +61,8 @@
             }
             <td>
 
-                @Html.ActionLink("Details", "Details", new { id = item.Booking.BookingId }) |
-                @Html.ActionLink("Cancel Booking", "Delete", new { id = item.Booking.BookingId })
+                @Html.ActionLink("Details", "Details", new { id = item.Booking.BookingId }, new { @class = "btn btn-primary" }) 
+                @Html.ActionLink("Cancel Booking", "Delete", new { id = item.Booking.BookingId }, new { @class = "btn btn-info" })
             </td>
         </tr>
     }

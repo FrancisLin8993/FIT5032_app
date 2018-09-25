@@ -36,6 +36,7 @@ namespace FIT5032_app.Controllers
         }
 
         // GET: Events/Create
+        [Authorize(Roles = "admin")]
         public ActionResult Create()
         {
             return View();
@@ -46,6 +47,7 @@ namespace FIT5032_app.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult Create([Bind(Include = "EventId,EventName,StartDateTime,EventLength,Description,Available")] Event @event)
         {
             if (ModelState.IsValid)
@@ -59,6 +61,7 @@ namespace FIT5032_app.Controllers
         }
 
         // GET: Events/Edit/5
+        [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -78,6 +81,7 @@ namespace FIT5032_app.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult Edit([Bind(Include = "EventId,EventName,StartDateTime,EventLength,Description,Available")] Event @event)
         {
             if (ModelState.IsValid)
@@ -90,6 +94,7 @@ namespace FIT5032_app.Controllers
         }
 
         // GET: Events/Delete/5
+        [Authorize(Roles = "admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -107,6 +112,7 @@ namespace FIT5032_app.Controllers
         // POST: Events/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Event @event = db.Events.Find(id);

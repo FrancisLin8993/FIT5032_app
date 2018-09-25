@@ -25,7 +25,7 @@ namespace FIT5032_app.Controllers
             var userId = User.Identity.GetUserId();
             var appuser = (from u in userdb.Users
                            select new { user = u }).ToArray();
-
+            //Query all the booking record and join the user information
             var adminQuery = from u in appuser
                         join b in db.Bookings on u.user.Id equals b.UserId                       
                         select new BookingEmailViewModel
@@ -33,7 +33,7 @@ namespace FIT5032_app.Controllers
                             Booking = b,
                             User = u.user
                         };
-
+            //Query the booking record for a specific user
             var query = from u in appuser
                         join b in db.Bookings on u.user.Id equals b.UserId
                         where b.UserId == userId
@@ -42,7 +42,7 @@ namespace FIT5032_app.Controllers
                             Booking = b,
                             User = u.user
                         };
-
+            //if the login user is admin, he can view all the booking record.
             if (User.IsInRole("admin"))
             {
                 return View(adminQuery);
@@ -96,12 +96,9 @@ namespace FIT5032_app.Controllers
             var userId = User.Identity.GetUserId();
             var appuser = (from u in userdb.Users
                            select new { userId = u.Id, email = u.Email }).ToArray();
-            /*if (User.IsInRole("admin"))
-            {
-                ViewBag.Id = new SelectList(appuser.Where(u => u.email != "admin@admin.com"), "Id", "UserName");
-            }*/
-
-
+            
+            //A user cannot book a event twice.
+            //Query events that the current user has not booked yet.
             var query = (from e in db.Events
                          where e.Available == true
                          select new {EventId = e.EventId, EventName = e.EventName})
@@ -175,6 +172,7 @@ namespace FIT5032_app.Controllers
         }
 
         // GET: Bookings/Edit/5
+        /*
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -205,7 +203,7 @@ namespace FIT5032_app.Controllers
             }
             ViewBag.EventId = new SelectList(db.Events, "EventId", "EventName", booking.EventId);
             return View(booking);
-        }
+        }*/
 
         // GET: Bookings/Delete/5
         public ActionResult Delete(int? id)

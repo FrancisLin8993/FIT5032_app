@@ -8,7 +8,10 @@
 <h2>Event List</h2>
 
 <p>
-    @Html.ActionLink("Create New Event", "Create",null, htmlAttributes: new {@class = "btn btn-default"})
+    @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+    {
+        @Html.ActionLink("Create New Event", "Create", null, htmlAttributes: new { @class = "btn btn-default" })
+    }
 </p>
 <table class="table">
     <tr>
@@ -50,12 +53,12 @@
         <td>
             @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
             {
-                @Html.ActionLink("Edit", "Edit", new { id = item.EventId }) 
-            } |
-            @Html.ActionLink("Details", "Details", new { id = item.EventId }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.EventId }, new { @class = "btn btn-default" }) 
+            } 
+            @Html.ActionLink("Details", "Details", new { id = item.EventId }, new { @class = "btn btn-primary" }) 
             @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
             {
-                @Html.ActionLink("Delete", "Delete", new { id = item.EventId })
+                @Html.ActionLink("Delete", "Delete", new { id = item.EventId }, new { @class = "btn btn-info" })
             }
         </td>
     </tr>
