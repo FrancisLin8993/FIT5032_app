@@ -15,56 +15,71 @@
 }
 
 
-    <p>
-        @Html.ActionLink("Book A New Event", "Create", null, htmlAttributes: new { @class = "btn btn-default" })
-    </p>
+<p>
+    @Html.ActionLink("Book A New Event", "Create", null, htmlAttributes: new { @class = "btn btn-default" })
+</p>
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Booking.Event.EventName)
-
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Booking.Event.StartDateTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Booking.Event.EventLength)
-        </th>
-        @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
-        {
-            <th>
-                @Html.DisplayNameFor(model => model.User.Email)
-            </th>
-        }
-        <th>
-
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+    <thead>
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Booking.Event.EventName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Booking.Event.StartDateTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Booking.Event.EventLength)
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Booking.Event.EventName)
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Booking.Event.StartDateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Booking.Event.EventLength)
+            </th>
             @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
             {
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.Email)
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.User.Email)
+                </th>
             }
-            <td>
+            <th>
 
-                @Html.ActionLink("Details", "Details", new { id = item.Booking.BookingId }, new { @class = "btn btn-primary" }) 
-                @Html.ActionLink("Cancel Booking", "Delete", new { id = item.Booking.BookingId }, new { @class = "btn btn-info" })
-            </td>
+            </th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Booking.Event.EventName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Booking.Event.StartDateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Booking.Event.EventLength)
+                </td>
+                @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.Email)
+                    </td>
+                }
+                <td>
 
+                    @Html.ActionLink("Details", "Details", new { id = item.Booking.BookingId }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Cancel Booking", "Delete", new { id = item.Booking.BookingId }, new { @class = "btn btn-info" })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+@section Scripts{
+
+    @Scripts.Render("~/Scripts/DataTables/jquery.dataTables.js")
+    @Scripts.Render("~/Scripts/DataTables/dataTables.bootstrap.js")
+
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable();
+        });
+    </script>
+    
+}
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.min.css" rel="stylesheet" />

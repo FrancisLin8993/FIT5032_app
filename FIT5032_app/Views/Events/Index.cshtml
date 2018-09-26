@@ -14,54 +14,71 @@
     }
 </p>
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.EventName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StartDateTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EventLength)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Available)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.EventName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartDateTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EventLength)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Available)
-        </td>
-        <td>
-            @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
-            {
-                @Html.ActionLink("Edit", "Edit", new { id = item.EventId }, new { @class = "btn btn-default" }) 
-            } 
-            @Html.ActionLink("Details", "Details", new { id = item.EventId }, new { @class = "btn btn-primary" }) 
-            @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
-            {
-                @Html.ActionLink("Delete", "Delete", new { id = item.EventId }, new { @class = "btn btn-info" })
-            }
-        </td>
-    </tr>
-}
-
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EventName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventLength)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Available)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventLength)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Available)
+                </td>
+                <td>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = item.EventId }, new { @class = "btn btn-default" })
+                    }
+                    @Html.ActionLink("Details", "Details", new { id = item.EventId }, new { @class = "btn btn-primary" })
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                    {
+                        @Html.ActionLink("Delete", "Delete", new { id = item.EventId }, new { @class = "btn btn-info" })
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+
+@section Scripts{
+
+    @Scripts.Render("~/Scripts/DataTables/jquery.dataTables.js")
+    @Scripts.Render("~/Scripts/DataTables/dataTables.bootstrap.js")
+
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable();
+        });
+    </script>
+
+}
+<link href="~/Content/DataTables/css/dataTables.bootstrap.min.css" rel="stylesheet" />
