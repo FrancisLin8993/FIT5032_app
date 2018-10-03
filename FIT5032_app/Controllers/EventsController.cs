@@ -52,9 +52,18 @@ namespace FIT5032_app.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Events.Add(@event);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (@event.IsDateTimeValid())
+                {
+                    db.Events.Add(@event);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.Error = "Sorry, your selected date must be within 1 years of the current date.";
+                    return View(@event);
+                }
+                
             }
 
             return View(@event);
@@ -86,9 +95,20 @@ namespace FIT5032_app.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(@event).State = EntityState.Modified;
+                if (@event.IsDateTimeValid())
+                {
+                    db.Entry(@event).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.Error = "Sorry, your selected date must be within 1 years of the current date.";
+                    return View(@event);
+                }
+                /*db.Entry(@event).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index");*/
             }
             return View(@event);
         }

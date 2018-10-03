@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using FIT5032_app.Models;
+using FIT5032_app.Utils;
 using Microsoft.AspNet.Identity;
 
 namespace FIT5032_app.Controllers
@@ -120,6 +121,9 @@ namespace FIT5032_app.Controllers
         public ActionResult Create([Bind(Include = "BookingId,EventId")] Booking booking, FormCollection form)
         {
             var userdb = new ApplicationDbContext();
+            EmailSender es = new EmailSender();
+            
+
             //If the login user is admin, an email has to be entered when creating bookings
             if (User.IsInRole("admin"))
             {
@@ -144,6 +148,7 @@ namespace FIT5032_app.Controllers
                     {
                         db.Bookings.Add(booking);
                         db.SaveChanges();
+                        es.Send(email, "Booking Successful", "Your booking is successful.");
                         return RedirectToAction("Index");
                     }
                 }
@@ -156,11 +161,14 @@ namespace FIT5032_app.Controllers
                 booking.UserId = User.Identity.GetUserId();
                 ModelState.Clear();
                 TryValidateModel(booking);
-
+                var emailQuery = (from u in userdb.Users
+                             where u.Id == booking.UserId
+                             select new { email = u.Email }).ToList().FirstOrDefault();
                 if (ModelState.IsValid)
                 {
                     db.Bookings.Add(booking);
                     db.SaveChanges();
+                    es.Send(emailQuery.email, "Booking Successful", "Your booking is successful.");
                     return RedirectToAction("Index");
                 }
 
@@ -225,9 +233,17 @@ namespace FIT5032_app.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            EmailSender es = new EmailSender();
+
+            var userdb = new ApplicationDbContext();
+
             Booking booking = db.Bookings.Find(id);
+            var emailQuery = (from u in userdb.Users
+                              where u.Id == booking.UserId
+                              select new { email = u.Email }).ToList().FirstOrDefault();
             db.Bookings.Remove(booking);
             db.SaveChanges();
+            es.Send(emailQuery.email, "Booking Successfully Cancelled", "Your booking is successfully cancelled.");
             return RedirectToAction("Index");
         }
 

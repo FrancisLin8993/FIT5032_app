@@ -56,12 +56,12 @@
                 <td>
                     @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
                     {
-                        @Html.ActionLink("Edit", "Edit", new { id = item.EventId }, new { @class = "btn btn-default" })
+                        @Html.ActionLink("Edit", "Edit", new { id = item.EventId }, new { @class = "btn btn-info" })
                     }
                     @Html.ActionLink("Details", "Details", new { id = item.EventId }, new { @class = "btn btn-primary" })
                     @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
                     {
-                        @Html.ActionLink("Delete", "Delete", new { id = item.EventId }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.EventId }, new { @class = "btn btn-danger" })
                     }
                 </td>
             </tr>

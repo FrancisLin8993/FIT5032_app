@@ -6,7 +6,7 @@
 }
 
 <h2>Edit</h2>
-
+<h2 class="text-danger">@ViewBag.Error</h2>
 
 @using (Html.BeginForm())
 {
@@ -29,7 +29,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.StartDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.StartDateTime, new { htmlAttributes = new { @class = "form-control", @id = "datetimepicker1" } })
+                @Html.EditorFor(model => model.StartDateTime, new { htmlAttributes = new { @class = "form-control", @id = "datetimepicker1",  @value = Model.StartDateTime.ToString("YYYY-MM-DD HH:mm") } })
                 @Html.ValidationMessageFor(model => model.StartDateTime, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -80,8 +80,8 @@
     $(function () {
         $('#datetimepicker1').datetimepicker({
             format: 'YYYY-MM-DD HH:mm',
-            maxDate: '2029-12-31',
-            minDate: Date.now()
+            minDate: new Date(),
+            maxDate: new Date(new Date().setDate(new Date().getDate() + 365))
         });
         $('#datetimepicker1').attr('autocomplete', 'off');
     });

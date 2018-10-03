@@ -124,3 +124,11 @@ C:\Users\fengci\source\repos\FIT5032_app\FIT5032_app\obj\Debug\FIT5032_app.cspro
 C:\Users\fengci\source\repos\FIT5032_app\FIT5032_app\obj\Debug\FIT5032_app.csproj.CopyComplete
 C:\Users\fengci\source\repos\FIT5032_app\FIT5032_app\obj\Debug\FIT5032_app.dll
 C:\Users\fengci\source\repos\FIT5032_app\FIT5032_app\obj\Debug\FIT5032_app.pdb
+C:\Users\fengci\source\repos\FIT5032_app\FIT5032_app\bin\SendGrid.dll
+C:\Users\fengci\source\repos\FIT5032_app\FIT5032_app\bin\System.Net.Http.dll
+C:\Users\fengci\source\repos\FIT5032_app\FIT5032_app\bin\System.Security.Cryptography.Algorithms.dll
+C:\Users\fengci\source\repos\FIT5032_app\FIT5032_app\bin\System.Security.Cryptography.Encoding.dll
+C:\Users\fengci\source\repos\FIT5032_app\FIT5032_app\bin\System.Security.Cryptography.Primitives.dll
+C:\Users\fengci\source\repos\FIT5032_app\FIT5032_app\bin\System.Security.Cryptography.X509Certificates.dll
+C:\Users\fengci\source\repos\FIT5032_app\FIT5032_app\bin\SendGrid.pdb
+C:\Users\fengci\source\repos\FIT5032_app\FIT5032_app\bin\SendGrid.xml

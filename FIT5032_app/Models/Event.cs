@@ -1,5 +1,6 @@
 namespace FIT5032_app.Models
 {
+    using FIT5032_app.Utils;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -24,6 +25,7 @@ namespace FIT5032_app.Models
         [Display(Name = "Start Date & Time")]
         [DataType(DataType.DateTime)]
         //[Range(typeof(DateTime), DateTime.Now.ToString(), "2029-12-31", ErrorMessage = "Your Seleted date and time is out of Range")]
+        //[DateRangeValidation]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime StartDateTime { get; set; }
         [Required]
@@ -41,5 +43,18 @@ namespace FIT5032_app.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Booking> Bookings { get; set; }
+
+        public bool IsDateTimeValid()
+        {
+            var endDate = DateTime.Now.AddYears(1);
+            if (DateTime.Now.CompareTo(StartDateTime) <= 0 && endDate.CompareTo(StartDateTime) >= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
