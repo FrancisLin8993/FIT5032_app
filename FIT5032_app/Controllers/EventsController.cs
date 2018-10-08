@@ -36,6 +36,7 @@ namespace FIT5032_app.Controllers
         }
 
         // GET: Events/Create
+        //Only admin user can create events.
         [Authorize(Roles = "admin")]
         public ActionResult Create()
         {
@@ -52,6 +53,7 @@ namespace FIT5032_app.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Check whether the input date time is valid.
                 if (@event.IsDateTimeValid())
                 {
                     db.Events.Add(@event);
@@ -60,7 +62,7 @@ namespace FIT5032_app.Controllers
                 }
                 else
                 {
-                    ViewBag.Error = "Sorry, your selected date must be within 1 years of the current date.";
+                    ViewBag.Error = "Your selected date must be within 1 years of the current date, and the event start time should be between 9am to 7pm";
                     return View(@event);
                 }
                 
@@ -70,6 +72,7 @@ namespace FIT5032_app.Controllers
         }
 
         // GET: Events/Edit/5
+        //Only admin user can edit events.
         [Authorize(Roles = "admin")]
         public ActionResult Edit(int? id)
         {
@@ -95,6 +98,7 @@ namespace FIT5032_app.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Check whether the input date time is valid.
                 if (@event.IsDateTimeValid())
                 {
                     db.Entry(@event).State = EntityState.Modified;
@@ -106,14 +110,13 @@ namespace FIT5032_app.Controllers
                     ViewBag.Error = "Sorry, your selected date must be within 1 years of the current date.";
                     return View(@event);
                 }
-                /*db.Entry(@event).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");*/
+                
             }
             return View(@event);
         }
 
         // GET: Events/Delete/5
+        //Only admin can delete events.
         [Authorize(Roles = "admin")]
         public ActionResult Delete(int? id)
         {
@@ -136,7 +139,7 @@ namespace FIT5032_app.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Event @event = db.Events.Find(id);
-
+            //Check whether the event has booking records(children records in database)
             var booking = db.Bookings.Where(b => b.EventId == @event.EventId).ToList();
             if (booking.Count != 0)
             {

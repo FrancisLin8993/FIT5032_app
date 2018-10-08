@@ -81,12 +81,18 @@ namespace FIT5032_app.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Booking booking = db.Bookings.Find(id);
-            if (booking == null)
+            var userdb = new ApplicationDbContext();
+            //Create a new bookingEmailViewModel
+            BookingEmailViewModel bevm = new BookingEmailViewModel();
+            bevm.Booking = db.Bookings.Find(id);
+            //find the user email according to the user id in the booking record.
+            bevm.User = userdb.Users.Find(bevm.Booking.UserId);
+            //Booking booking = db.Bookings.Find(id);
+            if (bevm == null)
             {
                 return HttpNotFound();
             }
-            return View(booking);
+            return View(bevm);
         }
 
         // GET: Bookings/Create
@@ -180,6 +186,7 @@ namespace FIT5032_app.Controllers
         }
 
         // GET: Bookings/Edit/5
+        // Bookings are not enabled to be edited.
         /*
         public ActionResult Edit(int? id)
         {
@@ -238,6 +245,7 @@ namespace FIT5032_app.Controllers
             var userdb = new ApplicationDbContext();
 
             Booking booking = db.Bookings.Find(id);
+            //Query the email of a user in the corresponding booking record.
             var emailQuery = (from u in userdb.Users
                               where u.Id == booking.UserId
                               select new { email = u.Email }).ToList().FirstOrDefault();

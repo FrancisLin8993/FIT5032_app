@@ -31,6 +31,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Booking.Event.EventLength)
             </th>
+            @*If the current login user is admin, displaying the user email of each booking record*@
             @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
             {
                 <th>

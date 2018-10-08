@@ -6,12 +6,17 @@
 }
 
 <h2>Edit</h2>
-<h2 class="text-danger">@ViewBag.Error</h2>
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.Error
+    </div>
+}
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Event</h4>
         <hr />
@@ -29,7 +34,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.StartDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.StartDateTime, new { htmlAttributes = new { @class = "form-control", @id = "datetimepicker1",  @value = Model.StartDateTime.ToString("YYYY-MM-DD HH:mm") } })
+                @Html.EditorFor(model => model.StartDateTime, new { htmlAttributes = new { @class = "form-control", @id = "datetimepicker1", @value = Model.StartDateTime.ToString("YYYY-MM-DD HH:mm") } })
                 @Html.ValidationMessageFor(model => model.StartDateTime, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -80,8 +85,12 @@
     $(function () {
         $('#datetimepicker1').datetimepicker({
             format: 'YYYY-MM-DD HH:mm',
+            //The minimum date time available to choose is the current date and time.
             minDate: new Date(),
-            maxDate: new Date(new Date().setDate(new Date().getDate() + 365))
+            //The maximum date time available to choose is date one year later than the current date.
+            maxDate: new Date(new Date().setDate(new Date().getDate() + 365)),
+            //Set event available time between 9am to 7pm
+            disabledTimeIntervals: [[moment({ h: 0 }), moment({ h: 9 })], [moment({ h: 19 }), moment({ h: 24 })]]
         });
         $('#datetimepicker1').attr('autocomplete', 'off');
     });

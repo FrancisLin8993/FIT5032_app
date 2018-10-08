@@ -4,7 +4,7 @@ namespace FIT5032_app.Models
     using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
-
+    //The Booking Model includes Booking and Event in the application
     public partial class AppBookingModel : DbContext
     {
         public AppBookingModel()

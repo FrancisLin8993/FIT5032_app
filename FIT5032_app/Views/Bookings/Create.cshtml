@@ -6,42 +6,48 @@
 }
 
 <h2>Book An Event</h2>
-<h2 class="text-danger">@ViewBag.Error</h2>
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.Error
+    </div>
+}
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>Booking</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <h4>Booking</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
-    {
+        @*If the current login user is the admin, he has to enter the email of a normal user to create a booking record*@
+        @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+        {
+            <div class="form-group">
+                @Html.Label("User Email", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("User Email", new { htmlAttributes = new { @class = "form-control" } })
+
+                </div>
+            </div>
+        }
+
         <div class="form-group">
-            @Html.Label("User Email", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.EventId, "Choose An Event", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.Editor("User Email", new { htmlAttributes = new { @class = "form-control" } })
-                
+                @Html.DropDownList("EventId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.EventId, "", new { @class = "text-danger" })
             </div>
         </div>
-    }
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.EventId, "Choose An Event", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("EventId", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.EventId, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Confirm Booking" class="btn btn-default" />
+            </div>
         </div>
     </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Confirm Booking" class="btn btn-default" />
-        </div>
-    </div>
-</div>
 }
 
 <div>

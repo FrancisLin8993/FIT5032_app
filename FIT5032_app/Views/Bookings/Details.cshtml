@@ -1,4 +1,4 @@
-﻿@model FIT5032_app.Models.Booking
+﻿@model  FIT5032_app.Models.BookingEmailViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -12,42 +12,50 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Event.EventName)
+            @Html.DisplayNameFor(model => model.User.Email)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Event.EventName)
+            @Html.DisplayFor(model => model.User.Email)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Event.StartDateTime)
+            @Html.DisplayNameFor(model => model.Booking.Event.EventName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Event.StartDateTime)
+            @Html.DisplayFor(model => model.Booking.Event.EventName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Event.EventLength)
+            @Html.DisplayNameFor(model => model.Booking.Event.StartDateTime)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Event.EventLength)
+            @Html.DisplayFor(model => model.Booking.Event.StartDateTime)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Event.Description)
+            @Html.DisplayNameFor(model => model.Booking.Event.EventLength)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Event.Description)
+            @Html.DisplayFor(model => model.Booking.Event.EventLength)
         </dd>
 
-        
+        <dt>
+            @Html.DisplayNameFor(model => model.Booking.Event.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Booking.Event.Description)
+        </dd>
+
+
 
     </dl>
 </div>
 <p>
-    
+
     @Html.ActionLink("Back to List", "Index")
 </p>

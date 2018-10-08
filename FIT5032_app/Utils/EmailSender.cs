@@ -8,9 +8,10 @@ using System.Web;
 
 namespace FIT5032_app.Utils
 {
+    // Contains a method of sending an email to customers.
     public class EmailSender
     {
-        // Please use your API KEY here.
+        
         private const String API_KEY = "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";
 
         public void Send(String toEmail, String subject, String contents)

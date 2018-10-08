@@ -6,6 +6,7 @@ namespace FIT5032_app.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
+    //Booking Model of Application
     public partial class Booking
     {
         public int BookingId { get; set; }
