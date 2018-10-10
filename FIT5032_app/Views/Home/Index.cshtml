@@ -11,13 +11,15 @@
 
 <div class="row">
     <div class="col-md-6">
-        <h2>Find an Event!</h2>
-
-        <p><a class="btn btn-default" href="@Url.Action("Index", "Events")">Events List</a></p>
+        <h2>Find a Upcoming Event!</h2>
+        <div style="text-align:center">
+            <p id="upcoming" class="btn btn-default">Show Upcoming Events</p>
+            <p></p>
+        </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" style="text-align:center">
         <h4>You can always find a suitable event operated by our experienced trainers.</h4>
-
+        
     </div>
 
 </div>
@@ -36,3 +38,16 @@
 @section Scripts {
     @Scripts.Render("~/bundles/mapbox")
 }
+
+<script>
+    $(function () {
+        $('#upcoming').click(function () {
+
+            var d = new Date();
+            var m = moment(d).format("YYYY-MM-DD");
+            m = encodeURIComponent(m);
+            var uri = "/Events/Index?date=" + m;
+            $(location).attr('href', uri);
+        });
+    });
+</script>

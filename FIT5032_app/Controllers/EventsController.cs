@@ -15,9 +15,32 @@ namespace FIT5032_app.Controllers
         private AppBookingModel db = new AppBookingModel();
 
         // GET: Events
-        public ActionResult Index()
+        public ActionResult Index(String date)
         {
-            return View(db.Events.ToList());
+            if (null == date)
+            {
+                return View(db.Events.ToList());
+            }
+            else
+            {                
+                //Check whether the query string can be parsed to a date.
+                if(DateTime.TryParse(date, out DateTime dateValue))
+                {
+                    //Convert the date, and query the events which start date are greater than the current date.
+                    DateTime convertedDate = DateTime.Parse(date);
+                    var query = from e in db.Events
+                                where DbFunctions.TruncateTime(e.StartDateTime) >= convertedDate
+                                select e;
+                    return View(query.ToList());
+                }
+                else
+                {
+                    return HttpNotFound();
+                }
+
+                
+            }
+            
         }
 
         // GET: Events/Details/5

@@ -1,27 +1,10 @@
-﻿.image {
-    background-image: url('img/marion-michele-447867-unsplash.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center,center;
-    /*min-height:700px;*/
-    width: 100%;
-    
-}
-
-@media only screen and (max-width: 800px) {
-    .image {
-        background-image: url('img/marion-michele-447867-unsplash-portrait.jpg');
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center,center;
-    }
-}
+﻿
 
 .image h1,p {
     text-align:center;
 }
 
-.row h2 {
+.row h2,p {
     text-align:center;
 }
 
