@@ -56,8 +56,12 @@
 <p>
     @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
     {
-        @Html.ActionLink("Edit", "Edit", new { id = Model.EventId, @class = "btn btn-info" }) 
+        @Html.ActionLink("Edit", "Edit", new { id = Model.EventId, @class = "btn btn-info" })
     }
+    @if (User.Identity.IsAuthenticated && User.IsInRole("normal"))
+    {
+        @Url.Action("Create","Bookings",new { });
 
-    @Html.ActionLink("Back to List", "Index")
-</p>
+    }
+        @Html.ActionLink("Back to List", "Index")
+    </p>

@@ -13,7 +13,12 @@
 {
     <h2>Your Current Booking List</h2>
 }
-
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.Error
+    </div>
+}
 
 <p>
     @Html.ActionLink("Book A New Event", "Create", null, htmlAttributes: new { @class = "btn btn-default" })
@@ -78,9 +83,12 @@
 
     <script>
         $(document).ready(function () {
-            $('.table').DataTable();
+            $('.table').DataTable({
+                //Set the default order of events, ordering by the latest date.
+                "order": [1, 'desc']
+            });
         });
     </script>
-    
+
 }
-    <link href="~/Content/DataTables/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/css/dataTables.bootstrap.min.css" rel="stylesheet" />

@@ -21,7 +21,11 @@ namespace FIT5032_app.Controllers
         
         public ActionResult Index()
         {
-             var userdb = new ApplicationDbContext();
+            if (TempData["error"] != null)
+            {
+                ViewBag.Error = TempData["error"].ToString();
+            }
+            var userdb = new ApplicationDbContext();
              
             var userId = User.Identity.GetUserId();
             var appuser = (from u in userdb.Users
@@ -97,25 +101,33 @@ namespace FIT5032_app.Controllers
 
         // GET: Bookings/Create
         public ActionResult Create()
-        {
-            var userdb = new ApplicationDbContext();
+        {            
+                var userdb = new ApplicationDbContext();
 
-            var userId = User.Identity.GetUserId();
-            var appuser = (from u in userdb.Users
-                           select new { userId = u.Id, email = u.Email }).ToArray();
+                var userId = User.Identity.GetUserId();
+                var appuser = (from u in userdb.Users
+                               select new { userId = u.Id, email = u.Email }).ToArray();
+
+                //A user cannot book a event twice.
+                //Query events that the current user has not booked yet.
+                var query = (from e in db.Events
+                             where e.Available == true && e.StartDateTime >= DateTime.Now
+                             select new { EventId = e.EventId, EventName = e.EventName })
+                            .Except(from e in db.Events
+                                    join b in db.Bookings on e.EventId equals b.EventId
+                                    where b.UserId == userId
+                                    select new { EventId = e.EventId, EventName = e.EventName }).Distinct();
+
+            if (query.Count() == 0)
+            {
+                TempData["error"] = "Sorry, you have no available events to book";
+                return RedirectToAction("Index");
+            }
             
-            //A user cannot book a event twice.
-            //Query events that the current user has not booked yet.
-            var query = (from e in db.Events
-                         where e.Available == true
-                         select new {EventId = e.EventId, EventName = e.EventName})
-                        .Except(from e in db.Events
-                                join b in db.Bookings on e.EventId equals b.EventId
-                                where b.UserId == userId
-                                select new { EventId = e.EventId, EventName = e.EventName}).Distinct();
-
-            //db.Events.Where(e => e.Available == true, "EventId", "EventName")
+            
             ViewBag.EventId = new SelectList(query, "EventId", "EventName");
+            
+            
             return View();
         }
 
@@ -263,5 +275,7 @@ namespace FIT5032_app.Controllers
             }
             base.Dispose(disposing);
         }
+
+        
     }
 }

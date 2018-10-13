@@ -63,6 +63,7 @@
                     {
                         @Html.ActionLink("Delete", "Delete", new { id = item.EventId }, new { @class = "btn btn-danger" })
                     }
+                   
                 </td>
             </tr>
         }
@@ -76,7 +77,10 @@
 
     <script>
         $(document).ready(function () {
-            $('.table').DataTable();
+            $('.table').DataTable({
+                //Set the default order of events, ordering by the latest date.
+                "order": [1, 'desc']
+            });
         });
     </script>
 
