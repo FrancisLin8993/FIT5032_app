@@ -19,7 +19,7 @@ namespace FIT5032_app.Controllers
         {
             if (null == date)
             {
-                return View(db.Events.ToList());
+                return View(db.Events.OrderByDescending(e => e.StartDateTime).ToList());
             }
             else
             {                
@@ -31,7 +31,7 @@ namespace FIT5032_app.Controllers
                     var query = from e in db.Events
                                 where DbFunctions.TruncateTime(e.StartDateTime) >= convertedDate
                                 select e;
-                    return View(query.ToList());
+                    return View(query.OrderByDescending(e => e.StartDateTime).ToList());
                 }
                 else
                 {
