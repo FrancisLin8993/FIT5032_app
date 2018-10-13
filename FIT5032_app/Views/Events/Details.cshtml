@@ -60,15 +60,15 @@
     }
     @if (User.Identity.IsAuthenticated && User.IsInRole("normal") && Model.Available.ToString().Equals(bool.TrueString) && Model.StartDateTime >= DateTime.Now)
     {
-        @Html.BeginForm("Create", "Bookings", FormMethod.Post)
+        using (@Html.BeginForm("Create", "Bookings", FormMethod.Post))
         {
             @Html.AntiForgeryToken()
-            
-    <div class="form-actions no-color">
-        <input type="hidden" name="eventId" value= @Model.EventId />
-        <input type="submit" value="Book This Event" class="btn btn-success" />
 
-    </div>
+            <div class="form-actions no-color">
+                <input type="hidden" name="eventId" value= @Model.EventId />
+                <input type="submit" value="Book This Event" class="btn btn-success" />
+
+            </div>
         }
 
 
