@@ -108,7 +108,7 @@ namespace FIT5032_app.Controllers
                 var appuser = (from u in userdb.Users
                                select new { userId = u.Id, email = u.Email }).ToArray();
 
-                //A user cannot book a event twice.
+                //A user cannot book a event twice, cannot book past events.
                 //Query events that the current user has not booked yet.
                 var query = (from e in db.Events
                              where e.Available == true && e.StartDateTime >= DateTime.Now
@@ -179,6 +179,17 @@ namespace FIT5032_app.Controllers
                 booking.UserId = User.Identity.GetUserId();
                 ModelState.Clear();
                 TryValidateModel(booking);
+                var existBooking = (from b in db.Bookings
+                                   where b.EventId == booking.EventId
+                                   && b.UserId == booking.UserId
+                                   select new { b }).ToList();
+
+                if (existBooking.Count != 0)
+                {
+                    TempData["error"] = "Sorry, you have already booked this event.";
+                    return RedirectToAction("Index");
+                }
+
                 var emailQuery = (from u in userdb.Users
                              where u.Id == booking.UserId
                              select new { email = u.Email }).ToList().FirstOrDefault();
@@ -196,6 +207,9 @@ namespace FIT5032_app.Controllers
 
 
         }
+
+        
+
 
         // GET: Bookings/Edit/5
         // Bookings are not enabled to be edited.
@@ -266,6 +280,8 @@ namespace FIT5032_app.Controllers
             es.Send(emailQuery.email, "Booking Successfully Cancelled", "Your booking is successfully cancelled.");
             return RedirectToAction("Index");
         }
+
+        
 
         protected override void Dispose(bool disposing)
         {
