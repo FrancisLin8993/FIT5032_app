@@ -13,7 +13,7 @@
         @Html.ActionLink("Create New Event", "Create", null, htmlAttributes: new { @class = "btn btn-default" })
     }
 </p>
-<table class="table">
+<table class="table table-responsive">
     <thead>
         <tr>
             <th>
@@ -31,7 +31,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Available)
             </th>
-            <th></th>
+            <th>
+
+            </th>
+            <th>
+
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -63,7 +68,25 @@
                     {
                         @Html.ActionLink("Delete", "Delete", new { id = item.EventId }, new { @class = "btn btn-danger" })
                     }
-                   
+                    
+
+                </td>
+                <td>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("normal") && item.Available.ToString().Equals(bool.TrueString) && item.StartDateTime >= DateTime.Now)
+                    {
+                        using (@Html.BeginForm("Create", "Bookings", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-actions no-color">
+                                <input type="hidden" name="eventId" value=@item.EventId />
+                                <input type="submit" value="Book" class="btn btn-success" />
+
+                            </div>
+                        }
+
+
+                    }
                 </td>
             </tr>
         }

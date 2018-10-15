@@ -130,7 +130,7 @@ namespace FIT5032_app.Controllers
                 }
                 else
                 {
-                    ViewBag.Error = "Sorry, your selected date must be within 1 years of the current date.";
+                    ViewBag.Error = "Your selected date must be within 1 years of the current date, and the event start time should be between 9am to 7pm";
                     return View(@event);
                 }
                 
