@@ -56,7 +56,7 @@
 <p>
     @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
     {
-        @Html.ActionLink("Edit", "Edit", new { id = Model.EventId, @class = "btn btn-info" })
+        @Html.ActionLink("Edit", "Edit", null, htmlAttributes: new { id = Model.EventId, @class = "btn btn-info" })
     }
     @if (User.Identity.IsAuthenticated && User.IsInRole("normal") && Model.Available.ToString().Equals(bool.TrueString) && Model.StartDateTime >= DateTime.Now)
     {
@@ -73,5 +73,5 @@
 
 
     }
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index", null, htmlAttributes: new { @class = "btn btn-default" })
 </p>
