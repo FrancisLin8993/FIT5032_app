@@ -50,7 +50,7 @@ namespace FIT5032_app.Models
             var endDate = DateTime.Now.AddYears(1);
             TimeSpan minTime = new TimeSpan(9, 0, 0);
             TimeSpan maxTime = new TimeSpan(19, 0, 0);
-            if ((DateTime.Now.CompareTo(StartDateTime) <= 0 && endDate.CompareTo(StartDateTime) >= 0) && (StartDateTime.TimeOfDay > minTime && StartDateTime.TimeOfDay < maxTime))
+            if ((DateTime.Now.CompareTo(StartDateTime) <= 0 && endDate.CompareTo(StartDateTime) >= 0) && (StartDateTime.TimeOfDay >= minTime && StartDateTime.TimeOfDay <= maxTime))
             {
                 return true;
             }
